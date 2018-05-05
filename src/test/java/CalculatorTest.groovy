@@ -2,6 +2,7 @@ import spock.lang.Shared
 import spock.lang.Specification
 import task.calculations.Calculator
 import task.files.FileLoader
+import task.strategy.BigDecimalStrategy
 import task.strategy.FourOperatorsStrategy
 
 class CalculatorTest extends Specification
@@ -16,16 +17,22 @@ class CalculatorTest extends Specification
     void "test multiple numbers and operators"()
     {
         given:
-        Calculator calculator = new Calculator(
+        Calculator fourOperatorsCalculator = new Calculator(
             fileLoader.loadFileFromResourcePath("math.txt"),
             new FourOperatorsStrategy()
         )
+        Calculator bigDecimalCalculator = new Calculator(
+            fileLoader.loadFileFromResourcePath("math.txt"),
+            new BigDecimalStrategy()
+        )
 
         when:
-        calculator.printResult()
+        fourOperatorsCalculator.printResult()
+        bigDecimalCalculator.printResult()
 
         then:
-        calculator.printResult() == 36
+        fourOperatorsCalculator.printResult() == 36
+        bigDecimalCalculator.printResult() == 36
     }
 
     void "test single number and operator"()
